@@ -3,8 +3,9 @@ import {
   addStatusToInvoice,
   createExpressionAttributeValues,
   createUpdateExpression,
+  getUserId,
 } from "@/utils";
-import { updateInvoiceSchema, invoiceSchema, Invoice } from "@/validation";
+import { Invoice, updateInvoiceSchema } from "@/validation";
 import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import {
   type APIGatewayProxyEvent,
@@ -14,9 +15,7 @@ import {
 const updateInvoiceController = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const userId = invoiceSchema.shape.userId.parse(
-    event.requestContext.authorizer?.jwt?.claims?.sub
-  );
+  const userId = getUserId(event);
 
   const invoiceId = event.pathParameters?.invoiceId;
 

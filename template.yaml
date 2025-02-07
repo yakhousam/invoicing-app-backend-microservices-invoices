@@ -27,6 +27,7 @@ Globals:
         ENDPOINT_OVERRIDE: ""
         userId: ""
         userName: ""
+        NODE_ENV: "production"
 
 Resources:
   HttpApi:

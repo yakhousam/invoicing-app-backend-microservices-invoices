@@ -84,6 +84,17 @@ export const updateInvoiceSchema = createInvoiceSchema
     path: ["updates"],
   });
 
+export const getAllInvoicesResponse = z.array(
+  invoiceSchema.pick({
+    invoiceId: true,
+    invoiceDate: true,
+    totalAmount: true,
+    status: true,
+    currency: true,
+    clientName: true,
+  })
+);
+
 export type Invoice = z.infer<typeof invoiceSchema>;
 
 export type Item = z.infer<typeof itemSchema>;

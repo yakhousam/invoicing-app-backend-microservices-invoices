@@ -1,11 +1,6 @@
 import { ddbDocClient, tableName } from "@/db/client";
-import { addStatusToInvoice } from "@/utils";
-import {
-  createInvoiceSchema,
-  invoiceSchema,
-  Item,
-  type Invoice,
-} from "@/validation";
+import { addStatusToInvoice, getUserId } from "@/utils";
+import { createInvoiceSchema, Item, type Invoice } from "@/validation";
 import { PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import {
   type APIGatewayProxyEvent,
@@ -17,9 +12,7 @@ import { z } from "zod";
 const postClientController = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const userId = invoiceSchema.shape.userId.parse(
-    event.requestContext.authorizer?.jwt?.claims?.sub
-  );
+  const userId = getUserId(event);
 
   const validateBody = createInvoiceSchema.parse(event.body);
 
